@@ -1,0 +1,35 @@
+<!--Добавление автобуса-->
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Radar</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1>Профиль</h1>
+  <p>Логин: <span th:text="${user.login}"></span></p>
+  <p>Почта: <span th:text="${user.email}"></span></p>
+  <p>Подписка: <span th:text="${user.subscribe}"></span></p>
+  <p>Старт подписки: <span th:text="${user.startSub}"></span></p>
+  <p>Конец подписки: <span th:text="${user.endSub}"></span></p>
+  <a
+          th:if="${user.subscribe}"
+          th:href="'/users/profile/remove-subscribe/' + ${user.id}"
+          class="btn btn-danger"
+          role="button"
+          onclick="return confirm('Вы действительно хотите удалить подписку пользователя?');"
+          aria-disabled="true">Удалить подписку</a>
+  <a
+          th:if="${!user.subscribe}"
+          th:href="'/users/profile/add-subscribe/' + ${user.id}"
+          class="btn btn-danger"
+          role="button"
+          onclick="return confirm('Вы действительно хотите оформить подписку пользователю?');"
+          aria-disabled="true">Оформить подписку</a>
+</div>
+</body>
+</html>

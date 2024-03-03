@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Radar</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--        Форма регистрации-->
+    <!--        action="/registration" - url на который будут отправлены данные-->
+    <!--        object="userForm" - имя объекта в котором будут хранится данные (нужно чтобы потом в контроллере их распарсить)-->
+    <form method="POST" th:action="@{/users/registration}" th:object="${userForm}" style="margin: 0 auto">
+        <div class="row">
+            <div  class="col-auto">
+                <label for="login" class="form-label">Логин</label>
+                <input name="login" type="text" class="form-control" id="login" required>
+            </div>
+            <div class="col-auto">
+                <label for="password" class="form-label">Пароль</label>
+                <input name="password" type="password" class="form-control" id="password" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <label for="email" class="form-label">Почта</label>
+                <input name="email" type="text" class="form-control" id="email" required>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        <button class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+    </form>
+</div>
+</body>
+</html>

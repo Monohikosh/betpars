@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Radar</title>
+  <style>
+    .test {
+      color: red;
+    }
+    .new-button {
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      background: #0B63F6;
+      box-shadow: 0 5px 0 #003CC5;
+      width: 140px;
+      height: 60px;
+    }
+    div {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1 style="text-align: center">Добро пожаловать</h1>
+  <br><br><br><br>
+  <button sec:authorize="!hasRole('SUBSCRIBER') && !hasRole('ADMIN') && !hasRole('USER')" class="new-button">
+    <a style="color: azure" href="/login">Войти</a>
+  </button>
+</div>
+</body>
+</html>

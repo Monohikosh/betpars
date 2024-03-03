@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Radar</title>
+    <style>
+        .book-link {
+            text-decoration: none;
+        }
+
+        .book-link:hover {
+            color: #001445;
+        }
+
+        .not-enough-book {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h1>Line</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Статус</th>
+            <th scope="col">БК</th>
+            <th scope="col">Игра</th>
+            <th scope="col">Турнир</th>
+            <th scope="col">Команда 1</th>
+            <th scope="col">Команда 2</th>
+            <th scope="col">Дата матча</th>
+            <th scope="col">Параметры</th>
+            <th scope="col">Bet name</th>
+            <th scope="col">Коэффициенты</th>
+            <!--<th sec:authorize="hasRole('ADMIN') || hasRole('LIBRARIAN')" scope="col">Статус</th>-->
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pars : ${parses}">
+            <td th:text="${pars.getStatus()}"></td>
+            <td th:text="${pars.getBkName()}"></td>
+            <td th:text="${pars.getGameName()}"></td>
+            <td th:text="${pars.getTourName()}"></td>
+            <td th:text="${pars.getTeam1()}"></td>
+            <td th:text="${pars.getTeam2()}"></td>
+            <td th:text="${pars.getDateMatch()}"></td>
+            <td th:text="${pars.getParams()}"></td>
+            <td th:text="${pars.getBetName()}"></td>
+            <td th:text="${pars.getKofs()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Pagination" th:if="${parses.totalPages gt 0}">
+        <ul class="pagination justify-content-center font-weight-bold">
+            <li class="page-item" th:classappend="${parses.number eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/parses?page={id}(id=${parses.number lt 2 ? 1 : parses.number})}"
+                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(1, parses.totalPages, 1)}"
+                th:classappend="${i eq parses.number + 1} ? 'active'">
+                <a class="page-link" th:href="@{/parses?page={id}(id=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+            </li>
+            <li class="page-item" th:classappend="${parses.number eq parses.totalPages - 1} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/parses?page={id}(id=${parses.number + 2})}"
+                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+</body>
+</html>
