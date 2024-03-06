@@ -16,6 +16,7 @@
   <p>Подписка: <span th:text="${user.subscribe}"></span></p>
   <p>Старт подписки: <span th:text="${user.startSub}"></span></p>
   <p>Конец подписки: <span th:text="${user.endSub}"></span></p>
+  <div sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
   <a
           th:if="${user.subscribe}"
           th:href="'/users/profile/remove-subscribe/' + ${user.id}"
@@ -30,6 +31,7 @@
           role="button"
           onclick="return confirm('Вы действительно хотите оформить подписку пользователю?');"
           aria-disabled="true">Оформить подписку</a>
+  </div>
 </div>
 </body>
 </html>
