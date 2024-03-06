@@ -29,7 +29,8 @@ public class WebSecurityConfig {
     http
         .authorizeHttpRequests((requests) -> requests
             .requestMatchers("/", "/home").permitAll()
-            .requestMatchers("/live/*",
+                .requestMatchers("/users/registration").anonymous()
+                .requestMatchers("/live/*",
             "/line/*").hasAnyRole("ADMIN", "SUBSCRIBER")
             .anyRequest().authenticated()
         )

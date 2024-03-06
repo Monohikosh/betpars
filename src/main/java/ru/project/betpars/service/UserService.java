@@ -67,10 +67,13 @@ public class UserService {
     }
 
     public User create(User user) {
-        user.setRole(roleService.getOne(1L));
-        user.setSubscribe(false);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return repository.save(user);
+        if (repository.findUserByLogin(user.getLogin()) == null) {
+            user.setRole(roleService.getOne(1L));
+            user.setSubscribe(false);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            return repository.save(user);
+        }
+        return null;
     }
 //
 //    public User createSubscriber(User user) {
