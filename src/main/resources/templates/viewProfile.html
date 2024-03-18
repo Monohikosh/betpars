@@ -13,24 +13,34 @@
   <h1>Профиль</h1>
   <p>Логин: <span th:text="${user.login}"></span></p>
   <p>Почта: <span th:text="${user.email}"></span></p>
-  <p>Подписка: <span th:text="${user.subscribe}"></span></p>
+  <p th:if="${user.subscribe}">Подписка: <span>Активна</span></p>
+  <p th:if="${!user.subscribe}">Подписка: <span>Не активна</span></p>
   <p>Старт подписки: <span th:text="${user.startSub}"></span></p>
   <p>Конец подписки: <span th:text="${user.endSub}"></span></p>
   <div sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
-  <a
-          th:if="${user.subscribe}"
-          th:href="'/users/profile/remove-subscribe/' + ${user.id}"
-          class="btn btn-danger"
-          role="button"
-          onclick="return confirm('Вы действительно хотите удалить подписку пользователя?');"
-          aria-disabled="true">Удалить подписку</a>
-  <a
-          th:if="${!user.subscribe}"
-          th:href="'/users/profile/add-subscribe/' + ${user.id}"
-          class="btn btn-danger"
-          role="button"
-          onclick="return confirm('Вы действительно хотите оформить подписку пользователю?');"
-          aria-disabled="true">Оформить подписку</a>
+    <a
+      th:if="${user.subscribe}"
+      th:href="'/users/profile/remove-subscribe/' + ${user.id}"
+      class="btn btn-danger"
+      role="button"
+      onclick="return confirm('Вы действительно хотите удалить подписку пользователя?');"
+      aria-disabled="true">Удалить подписку</a>
+    <a
+      th:if="${!user.subscribe}"
+      th:href="'/users/profile/add-subscribe/' + ${user.id}"
+      class="btn btn-danger"
+      style="background-color: darkgreen"
+      role="button"
+      onclick="return confirm('Вы действительно хотите оформить подписку пользователю?');"
+      aria-disabled="true">Оформить подписку</a>
+    <a
+      sec:authorize="isAuthenticated() && (hasRole('ADMIN'))"
+      th:href="'/users/profile/delete-user/' + ${user.id}"
+      class="btn btn-danger"
+      role="button"
+      style="background-color: red"
+      onclick="return confirm('Вы действительно хотите удалить пользователя?');"
+      aria-disabled="true">Удалить пользователя</a>
   </div>
 </div>
 </body>

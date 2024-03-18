@@ -1,6 +1,9 @@
 package ru.project.betpars.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +36,12 @@ public class UserController {
     @GetMapping("/list")
     public String getAllUsers(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "5") int pageSize,
+            @RequestParam(value = "size", defaultValue = "20") int pageSize,
             Model model
     ) {
-        List<User> userList = service.getAll();
-        List<UserDto> userDtos = userList
+        PageRequest pageRequest = PageRequest.of(page-1, pageSize, Sort.by(Sort.Direction.ASC, "login"));
+        Page<User> userPage = service.getAll(pageRequest);
+        List<UserDto> userDtos = userPage
                 .stream()
                 .map(mapper::toDto)
                 .toList();
@@ -80,6 +84,12 @@ public class UserController {
     public String registration(@ModelAttribute("userForm") UserDto userDto) {
         service.create(mapper.toEntity(userDto));
         return "redirect:/login";
+    }
+
+    @GetMapping("/profile/delete-user/{userId}")
+    public String deleteUser(@PathVariable Long userId) {
+        service.delete(userId);
+        return "redirect:/users/list";
     }
 
 }

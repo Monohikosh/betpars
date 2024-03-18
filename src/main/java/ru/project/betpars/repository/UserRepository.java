@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import ru.project.betpars.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends GenericRepository<User> {
 
-    User findUserByLogin(@Param(value = "login") String login);
+    User findByLogin(String login);
 
 
 }

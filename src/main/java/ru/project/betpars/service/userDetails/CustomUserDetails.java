@@ -1,10 +1,14 @@
 package ru.project.betpars.service.userDetails;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Builder
+@AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
@@ -32,36 +36,48 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return accountNotExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return accountNotLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return credentialsNotExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
+    }
+
+    public Integer getUserId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "{\"user_id\":\"" + id + "\"," +
+                "\"username\":\"" + username + "\"," +
+                "\"user_role\":\"" + authorities + "\"," +
+                "\"user_password\":\"" + password + "\"}";
     }
 }

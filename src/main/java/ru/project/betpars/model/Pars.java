@@ -1,11 +1,10 @@
 package ru.project.betpars.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,6 +14,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Pars extends GenericModel {
+
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Column(name = "status")
     private String status;

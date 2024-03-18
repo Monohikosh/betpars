@@ -2,6 +2,7 @@ package ru.project.betpars.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,7 +17,7 @@ public class UserDto extends GenericDto {
   private String password;
   private String email;
   private boolean subscribe;
-  private LocalDateTime startSub;
-  private LocalDateTime endSub;
+  private LocalDate startSub;
+  private LocalDate endSub;
 
 }

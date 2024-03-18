@@ -11,7 +11,7 @@
   <h1>Пользователи</h1>
   <div class="row">
   </div>
-  <h4>Поиск</h4>
+<!--  <h4>Поиск</h4>-->
 <!--  <div class="row">-->
 <!--    <div class="col">-->
 <!--      <form method="POST" th:action="@{/users/search}" th:object="${userSearchForm}">-->
@@ -60,28 +60,57 @@
       <td th:text="${user.getRole().getDescription()}"></td>
       <td>
         <a
-                th:href="'/users/profile/' + ${user.id}"
-                class="btn btn-primary"
-                role="button"
-                aria-disabled="true">Просмотреть</a>
+            th:href="'/users/profile/' + ${user.id}"
+            class="btn btn-primary"
+            role="button"
+            style="background-color: goldenrod"
+            aria-disabled="true">Просмотреть</a>
         <a
             th:if="${!user.subscribe}"
             th:href="'/users/add-subscribe/' + ${user.id}"
             class="btn btn-danger"
             role="button"
+            style="background-color: darkgreen"
             onclick="return confirm('Вы действительно хотите дать подписку пользователю?');"
             aria-disabled="true">Оформить подписку</a>
         <a
-                th:if="${user.subscribe}"
-                th:href="'/users/remove-subscribe/' + ${user.id}"
-                class="btn btn-danger"
-                role="button"
-                onclick="return confirm('Вы действительно хотите удалить подписку пользователя?');"
-                aria-disabled="true">Удалить подписку</a>
+            th:if="${user.subscribe}"
+            th:href="'/users/remove-subscribe/' + ${user.id}"
+            class="btn btn-danger"
+            style="width: 176px"
+            role="button"
+            onclick="return confirm('Вы действительно хотите удалить подписку пользователя?');"
+            aria-disabled="true">Удалить подписку</a>
       </td>
     </tr>
     </tbody>
   </table>
+
+  <nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
+    <ul class="pagination justify-content-center font-weight-bold">
+      <li class="page-item" th:classappend="${users.number eq 0} ? 'disabled'">
+        <a class="page-link"
+           th:href="@{/users/list?page={id}(id=${users.number lt 2 ? 1 : users.number})}"
+           aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"
+          th:each="i : ${#numbers.sequence(1, users.totalPages, 1)}"
+          th:classappend="${i eq users.number + 1} ? 'active'">
+        <a class="page-link" th:href="@{/users/list?page={id}(id=${i})}" th:text="${i}"
+           th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+      </li>
+      <li class="page-item" th:classappend="${users.number eq users.totalPages - 1} ? 'disabled'">
+        <a class="page-link"
+           th:href="@{/users/list?page={id}(id=${users.number + 2})}"
+           aria-label="Next" title="Next Page" data-toggle="tooltip">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
 </div>
 </body>
 </html>

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import ru.project.betpars.model.User;
 import ru.project.betpars.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -23,13 +25,8 @@ public class UserService {
         this.roleService = roleService;
     }
 
-//    public User create(User user) {
-//        user.setSubscribe(false);
-//        return repository.save(user);
-//    }
-
-    public List<User> getAll() {
-        return repository.findAll();
+    public Page<User> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public User getOne(Long id) {
@@ -47,8 +44,8 @@ public class UserService {
     public void addSubscribe(Long userId) {
         User user = getOne(userId);
         user.setSubscribe(true);
-        user.setStartSub(LocalDateTime.now());
-        user.setEndSub(LocalDateTime.now().plusDays(30));
+        user.setStartSub(LocalDate.now());
+        user.setEndSub(LocalDate.now().plusDays(30));
         user.setRole(roleService.getOne(2L));
         update(user);
     }
@@ -57,7 +54,7 @@ public class UserService {
         User user = getOne(userId);
         user.setSubscribe(false);
         user.setStartSub(null);
-        user.setEndSub(LocalDateTime.now());
+        user.setEndSub(LocalDate.now());
         user.setRole(roleService.getOne(1L));
         update(user);
     }
@@ -67,7 +64,7 @@ public class UserService {
     }
 
     public User create(User user) {
-        if (repository.findUserByLogin(user.getLogin()) == null) {
+        if (repository.findByLogin(user.getLogin()) == null) {
             user.setRole(roleService.getOne(1L));
             user.setSubscribe(false);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -75,15 +72,9 @@ public class UserService {
         }
         return null;
     }
-//
-//    public User createSubscriber(User user) {
-//        user.setRole(roleService.getOne(2L));
-////        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        return repository.save(user);
-//    }
 
     public User getByLogin(String login) {
-        return repository.findUserByLogin(login);
+        return repository.findByLogin(login);
     }
 
 
